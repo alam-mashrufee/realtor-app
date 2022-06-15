@@ -18,7 +18,7 @@ export class SignupDto {
   phone: string;
 
   @IsEmail({
-    message: 'Email must not be a valid email',
+    message: 'Email must be a valid email',
   })
   email: string;
 
@@ -26,5 +26,15 @@ export class SignupDto {
   @MinLength(5, {
     message: 'Password must be of minimum length of 5',
   })
+  password: string;
+}
+
+export class SigninDto {
+  @IsEmail({
+    message: 'Email must be a valid email',
+  })
+  email: string;
+
+  @IsString()
   password: string;
 }
