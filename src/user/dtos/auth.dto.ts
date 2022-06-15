@@ -6,6 +6,7 @@ import {
   MinLength,
   Matches,
   IsEnum,
+  IsOptional,
 } from 'class-validator';
 export class SignupDto {
   @IsString()
@@ -29,6 +30,11 @@ export class SignupDto {
     message: 'Password must be of minimum length of 5',
   })
   password: string;
+
+  @IsOptional()
+  @IsString()
+  @IsNotEmpty()
+  productKey?: string;
 }
 
 export class SigninDto {

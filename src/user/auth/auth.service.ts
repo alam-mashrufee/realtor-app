@@ -19,7 +19,10 @@ interface SigninParams {
 @Injectable()
 export class AuthService {
   constructor(private readonly prismaService: PrismaService) {}
-  async signup({ email, name, phone, password }: SignupParams) {
+  async signup(
+    { email, name, phone, password }: SignupParams,
+    userType: UserType,
+  ) {
     const userExists = await this.prismaService.user.findUnique({
       where: {
         email,
@@ -38,7 +41,7 @@ export class AuthService {
         name,
         phone,
         password: hashPassword,
-        user_type: UserType.BUYER,
+        user_type: userType,
       },
     });
 
