@@ -1,5 +1,6 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, NotFoundException } from '@nestjs/common';
 import { PropertyType } from '@prisma/client';
+import { NotFoundError } from 'rxjs';
 import { PrismaService } from 'src/prisma/prisma.service';
 import { HomeResponseDto } from './dtos/home.dto';
 
@@ -34,6 +35,10 @@ export class HomeService {
       },
       where: filter,
     });
+
+    if (!homes.length) {
+      throw new NotFoundException();
+    }
 
     return homes.map((home) => {
       const fetchHome = { ...home, image: home.images[0]?.url };
