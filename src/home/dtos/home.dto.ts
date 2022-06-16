@@ -5,6 +5,8 @@ export class HomeResponseDto {
   id: number;
   address: string;
 
+  image: string;
+
   @Exclude()
   number_of_bedrooms: number;
   @Expose({ name: 'numberOfBedrooms' })
