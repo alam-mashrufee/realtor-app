@@ -80,16 +80,19 @@ export class HomeService {
   }
 
   // create home
-  async createHome({
-    address,
-    city,
-    number_of_bathrooms,
-    number_of_bedrooms,
-    land_size,
-    price,
-    property_type,
-    images,
-  }: CreateHomeParams) {
+  async createHome(
+    {
+      address,
+      city,
+      number_of_bathrooms,
+      number_of_bedrooms,
+      land_size,
+      price,
+      property_type,
+      images,
+    }: CreateHomeParams,
+    userId: number,
+  ) {
     const home = await this.prismaService.home.create({
       data: {
         address,
@@ -99,7 +102,7 @@ export class HomeService {
         land_size,
         price,
         property_type,
-        realtor_id: 7,
+        realtor_id: userId,
       },
     });
 
@@ -155,5 +158,30 @@ export class HomeService {
       },
     });
     return;
+  }
+
+  // getRealtorByHomeId
+  async getRealtorByHomeId(id: number) {
+    const home = this.prismaService.home.findUnique({
+      where: {
+        id,
+      },
+      select: {
+        realtor: {
+          select: {
+            name: true,
+            id: true,
+            phone: true,
+            email: true,
+          },
+        },
+      },
+    });
+
+    if (!home) {
+      throw new NotFoundException();
+    }
+
+    return home;
   }
 }
